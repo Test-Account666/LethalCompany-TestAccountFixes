@@ -1,5 +1,15 @@
 # TestAccountFixes
 
+## 1.1.0
+
+<details> 
+  <summary>Spooder Damage Fix</summary> 
+
+\+ Added the Spooder Damage "Fix", which is disabled by default, and changes the damage value for spooders (Aka
+spiders)<br>
+
+</details>
+
 ## 1.0.1
 
 <details> 

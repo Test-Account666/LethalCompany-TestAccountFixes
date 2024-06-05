@@ -51,6 +51,12 @@ public static class PlayerControllerBPatch {
 
         var grabObject = hit.collider.GetComponent<GrabbableObject>();
 
+        if (!(grabObject?.grabbable ?? false))
+            return true;
+
+        if (grabObject?.deactivated ?? true)
+            return true;
+
         if (grabObject != null)
             playerControllerB.hoveringOverTrigger = null;
 

@@ -15,11 +15,13 @@ internal abstract class Fix {
     private ConfigEntry<bool> _fixEnabled = null!;
     private ConfigEntry<LogLevel> _debugMessageLogLevel = null!;
     private static ManualLogSource Logger { get; set; } = null!;
+    private readonly bool _enabledByDefault;
 
     internal abstract void Awake();
 
-    protected Fix(ConfigFile configFile, string fixName, string description) {
+    protected Fix(ConfigFile configFile, string fixName, string description, bool enabledByDefault = true) {
         this.fixName = fixName;
+        _enabledByDefault = enabledByDefault;
         _description = description;
 
         Logger = TestAccountFixes.Logger;
@@ -28,7 +30,7 @@ internal abstract class Fix {
     }
 
     private void InitializeConfig(ConfigFile configFile) {
-        _fixEnabled = configFile.Bind(fixName, "1. Enable Fix", true,
+        _fixEnabled = configFile.Bind(fixName, "1. Enable Fix", _enabledByDefault,
                                       "If true, will enable the fix (Requires Restart, if changed via LethalConfig)");
 
         _sendDebugMessages = configFile.Bind(fixName, "2. Send Debug Messages", false,

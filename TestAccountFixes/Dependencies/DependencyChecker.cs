@@ -14,4 +14,8 @@ internal static class DependencyChecker {
     internal static bool IsTelevisionControllerInstalled() =>
         Chainloader.PluginInfos.Values.Any(metadata =>
                                                metadata.Metadata.GUID.Contains("KoderTech.TelevisionController"));
+
+    internal static bool IsInventoryFixPluginInstalled() =>
+        Chainloader.PluginInfos.Values.Any(metadata =>
+                                               metadata.Metadata.GUID.Contains("Dokge.InventoryFixPlugin"));
 }

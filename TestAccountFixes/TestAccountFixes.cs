@@ -8,6 +8,7 @@ using TestAccountFixes.Fixes;
 
 namespace TestAccountFixes;
 
+[BepInDependency("Dokge.InventoryFixPlugin", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("BMX.LobbyCompatibility", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("Yan01h.BetterItemHandling", BepInDependency.DependencyFlags.SoftDependency)]
 [BepInDependency("KoderTech.TelevisionController", BepInDependency.DependencyFlags.SoftDependency)]

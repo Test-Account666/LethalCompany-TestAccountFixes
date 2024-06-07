@@ -23,7 +23,8 @@ Allows them to hear shotgun shots, toggling the safety and reloading.<
 
 Optionally, will also fix the silent sprint bug.
 
-If you're a psychopa- Umm, I mean... Nice person... You might want to check out the "Chat is loud" config option.<br>
+If you're a psychopa- Umm, I mean... Nice person...<br>
+You might want to check out the "Chat is loud" config option.<br>
 That will make chat messages attract dogs.
 
 </details>

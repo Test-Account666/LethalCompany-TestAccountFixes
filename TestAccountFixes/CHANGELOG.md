@@ -1,5 +1,10 @@
 # TestAccountFixes
 
+## 1.1.1
+
+No actual changes.<br>
+Just added descriptions to the fixes list.
+
 ## 1.1.0
 
 <details> 

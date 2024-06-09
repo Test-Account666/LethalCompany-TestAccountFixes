@@ -1,5 +1,15 @@
 # TestAccountFixes
 
+## 1.1.2
+
+<details> 
+  <summary>Dog Sound Fix</summary> 
+
+\+ Fixed "modern" silent sprint<br>
+\* Fixed the fix<br>
+
+</details>
+
 ## 1.1.1
 
 No actual changes.<br>

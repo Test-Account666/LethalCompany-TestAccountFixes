@@ -7,7 +7,7 @@ namespace TestAccountFixes.Fixes.DogSound;
 public class SprintChecker : MonoBehaviour {
     private const int SWITCH_THRESHOLD = 6;
     private const float SWITCH_TIME_FRAME = 1.0f;
-    private PlayerState _currentState = PlayerState.WALK;
+    internal PlayerState currentState = PlayerState.WALK;
     private float _lastCheckTime;
     private Vector3 _lastPosition;
 
@@ -37,16 +37,16 @@ public class SprintChecker : MonoBehaviour {
 
         playerControllerB.PlayFootstepSound();
 
-        RoundManager.Instance.PlayAudibleNoise(playerControllerB.transform.position, 22f, 0.6f,
-                                               noiseIsInsideClosedShip: noiseIsInsideClosedShip, noiseID: 7);
+        RoundManager.Instance.PlayAudibleNoise(playerControllerB.transform.position, 13f, 0.6f,
+                                               noiseIsInsideClosedShip: noiseIsInsideClosedShip, noiseID: 8);
     }
 
 
     internal void CheckForRapidStateChange(PlayerControllerB playerControllerB) {
-        _previousState = _currentState;
-        _currentState = GetPlayerState(playerControllerB);
+        _previousState = currentState;
+        currentState = GetPlayerState(playerControllerB);
 
-        if (_currentState == _previousState)
+        if (currentState == _previousState)
             return;
 
         var position = playerControllerB.transform.position;
@@ -56,7 +56,7 @@ public class SprintChecker : MonoBehaviour {
         _lastPosition = position;
 
         DogSoundFix.LogDebug(
-            $"[SilentSprint3] {playerControllerB.playerUsername}: Switch from {_previousState} to {_currentState} detected!",
+            $"[SilentSprint3] {playerControllerB.playerUsername}: Switch from {_previousState} to {currentState} detected!",
             LogLevel.VERY_VERBOSE);
 
         _switchCount++;
@@ -74,7 +74,7 @@ public class SprintChecker : MonoBehaviour {
         _lastCheckTime = Time.time;
     }
 
-    private enum PlayerState {
+    internal enum PlayerState {
         WALK,
         CROUCH,
         SPRINT,

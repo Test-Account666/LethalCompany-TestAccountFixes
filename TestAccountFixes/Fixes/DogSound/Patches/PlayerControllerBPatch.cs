@@ -6,6 +6,31 @@ namespace TestAccountFixes.Fixes.DogSound.Patches;
 
 [HarmonyPatch(typeof(PlayerControllerB))]
 public static class PlayerControllerBPatch {
+    [HarmonyPatch(nameof(PlayerControllerB.PlayJumpAudio))]
+    [HarmonyPostfix]
+    // ReSharper disable once InconsistentNaming
+    private static void AlertDoggosBySprintJumping(PlayerControllerB __instance) {
+        if (!DogSoundFix.fixSilentSprint.Value)
+            return;
+
+        if (!__instance.IsHost) {
+            DogSoundFix.LogDebug("[SilentSprint4] We're not host, skipping...");
+            return;
+        }
+
+        var sprintChecker = __instance.gameObject.GetComponent<SprintChecker>()
+                         ?? __instance.gameObject.AddComponent<SprintChecker>();
+
+        if (sprintChecker.currentState is not SprintChecker.PlayerState.SPRINT) return;
+
+        DogSoundFix.LogDebug($"[SilentSprint4] {__instance.playerUsername} is alerting doggos!");
+
+        var noiseIsInsideClosedShip = __instance.isInHangarShipRoom && StartOfRound.Instance.hangarDoorsClosed;
+
+        RoundManager.Instance.PlayAudibleNoise(__instance.transform.position, 13f, 0.6f,
+                                               noiseIsInsideClosedShip: noiseIsInsideClosedShip, noiseID: 8);
+    }
+
     [HarmonyPatch(nameof(PlayerControllerB.Start))]
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming

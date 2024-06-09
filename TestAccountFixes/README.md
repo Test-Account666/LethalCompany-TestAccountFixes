@@ -58,7 +58,7 @@ The default button is `leftShift`.
 </details>
 
 <details> 
-  <summary>Spider damage "Fix"</summary> 
+  <summary>° Spider damage "Fix"</summary> 
 
 Well, this isn't really a fix, but I thought it could fit inside this mod anyway...
 

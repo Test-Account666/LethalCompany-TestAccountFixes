@@ -10,9 +10,12 @@ internal class ItemGrabFix(ConfigFile configFile) : Fix(configFile, "ItemGrab", 
     private const string DESCRIPTION =
         "Breaks the laws of physics to allow grabbing items behind InteractTriggers.";
 
+    private readonly ConfigFile _configFile = configFile;
+
     // ReSharper disable once MemberCanBePrivate.Global
     internal static ItemGrabFix Instance { get; private set; } = null!;
     internal static ItemGrabFixInputActions itemGrabFixInputActions = null!;
+    internal ConfigEntry<bool> allowItemGrabBeforeGameStart = null!;
 
     internal override void Awake() {
         Instance = this;
@@ -24,8 +27,15 @@ internal class ItemGrabFix(ConfigFile configFile) : Fix(configFile, "ItemGrab", 
 
         itemGrabFixInputActions = new();
 
+        InitializeConfig();
+
         Patch();
     }
+
+    private void InitializeConfig() =>
+        allowItemGrabBeforeGameStart = _configFile.Bind(fixName, "5. Allow Item Grab Before Game Start", true,
+                                                        "If set to true, will allow items to be grabbed before the game has started. "
+                                                      + "This might not always work.");
 
     internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
         ((Fix) Instance).LogDebug(message, logLevel);

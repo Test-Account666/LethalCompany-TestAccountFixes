@@ -57,8 +57,16 @@ public static class PlayerControllerBPatch {
         if (grabObject?.deactivated ?? true)
             return true;
 
-        if (grabObject != null)
+        if (grabObject != null) {
+            if (!ItemGrabFix.Instance.allowItemGrabBeforeGameStart.Value) {
+                if (!grabObject.itemProperties.canBeGrabbedBeforeGameStart && !GameNetworkManager.Instance.gameHasStarted) {
+                    playerControllerB.cursorTip.text = "(Cannot hold until ship has landed)";
+                    return false;
+                }
+            }
+
             playerControllerB.hoveringOverTrigger = null;
+        }
 
         if (grabObject != null && !string.IsNullOrEmpty(grabObject.customGrabTooltip)) {
             playerControllerB.cursorTip.text = grabObject.customGrabTooltip;
@@ -112,6 +120,18 @@ public static class PlayerControllerBPatch {
 
         if (networkObject == null || !networkObject.IsSpawned)
             return;
+
+        if (!(grabObject?.grabbable ?? false))
+            return;
+
+        if (grabObject?.deactivated ?? true)
+            return;
+
+        if (!ItemGrabFix.Instance.allowItemGrabBeforeGameStart.Value) {
+            if (!grabObject.itemProperties.canBeGrabbedBeforeGameStart && !GameNetworkManager.Instance.gameHasStarted) {
+                return;
+            }
+        }
 
         try {
             grabObject.InteractItem();

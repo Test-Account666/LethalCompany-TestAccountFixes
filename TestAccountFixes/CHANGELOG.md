@@ -1,5 +1,29 @@
 # TestAccountFixes
 
+## 1.2.0
+
+<details> 
+  <summary>Player Speed Fix</summary> 
+
+\+ Added Player Speed Fix, which fixes players being critically injured while not under 20 HP<br>
+
+</details>
+
+<details> 
+  <summary>Automatic Inventory Fix</summary> 
+
+\* Hopefully fixed all issues concerning infinite "Giving up" loops<br>
+\* Hopefully fixed all issues with items becoming invisible<br>
+
+</details>
+
+<details> 
+  <summary>Item Grab Fix</summary> 
+
+\+ Added config option to enable/disable pre-game item grabbing<br>
+
+</details>
+
 ## 1.1.2
 
 <details> 

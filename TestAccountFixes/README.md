@@ -67,3 +67,10 @@ Allows you to adjust the damage dealt by spiders.
 It is deactivated by default to honor the vanilla damage.
 
 </details>
+
+<details> 
+  <summary>° Player Speed Fix</summary> 
+
+Fixes players being critically injured while not under 20 HP
+
+</details>

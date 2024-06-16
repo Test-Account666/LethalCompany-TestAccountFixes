@@ -111,15 +111,24 @@ public static class PlayerControllerBPatch {
         if (_grabTimeoutTime > currentTime)
             return;
 
+        AutomaticInventoryFix.LogDebug("Detected grab lasting longer than 1 second, giving up...");
 
         player.grabInvalidated = true;
-        try {
-            player.SetObjectAsNoLongerHeld(player.isInElevator, player.isInHangarShipRoom, currentlyGrabbingObject.transform.position,
-                                           currentlyGrabbingObject);
-        } catch (Exception exception) {
-            exception.LogDetailed();
+
+        player.currentlyGrabbingObject = null;
+
+        if (currentlyGrabbingObject.parentObject != player.localItemHolder) return;
+
+        if (currentlyGrabbingObject.playerHeldBy is not null) {
+            currentlyGrabbingObject.parentObject = currentlyGrabbingObject.playerHeldBy.serverItemHolder;
+            return;
         }
 
-        AutomaticInventoryFix.LogDebug("Detected grab lasting longer than 1 second, giving up...");
+        if (currentlyGrabbingObject.isInShipRoom || currentlyGrabbingObject.isInElevator) {
+            currentlyGrabbingObject.parentObject = StartOfRound.Instance.elevatorTransform;
+            return;
+        }
+
+        currentlyGrabbingObject.parentObject = null;
     }
 }

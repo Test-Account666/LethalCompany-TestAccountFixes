@@ -1,13 +1,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameNetcodeStuff;
+using TestAccountCore;
 using TestAccountFixes.Core;
 using UnityEngine;
 
 namespace TestAccountFixes.Fixes.SpiderWeb;
 
 public static class CobwebChecker {
+    private static long _nextCheck;
+
     public static void HandleCobweb(PlayerControllerB playerControllerB) {
+        var localPlayer = StartOfRound.Instance.localPlayerController;
+
+        if (playerControllerB != localPlayer) {
+            SpiderWebFix.LogDebug($"{playerControllerB.playerUsername} is not local player!", LogLevel.VERY_VERBOSE);
+            return;
+        }
+
+        var currentTime = UnixTime.GetCurrentTime();
+
+        if (currentTime < _nextCheck) {
+            SpiderWebFix.LogDebug($"Still on cooldown, current time '{currentTime}', next check '{_nextCheck}'", LogLevel.VERY_VERBOSE);
+            return;
+        }
+
+        _nextCheck = currentTime + 1000;
+
         if (!IsPlayerValid(playerControllerB)) {
             SpiderWebFix.LogDebug($"{playerControllerB.playerUsername} not valid, skipping...", LogLevel.VERY_VERBOSE);
             return;
@@ -37,11 +56,6 @@ public static class CobwebChecker {
         }
 
         var localPlayer = StartOfRound.Instance.localPlayerController;
-
-        if (playerControllerB != localPlayer) {
-            SpiderWebFix.LogDebug($"{playerControllerB.playerUsername} is not local player!", LogLevel.VERY_VERBOSE);
-            return false;
-        }
 
         if (localPlayer.isSinking) {
             SpiderWebFix.LogDebug($"{playerControllerB.playerUsername} is sinking!", LogLevel.VERBOSE);

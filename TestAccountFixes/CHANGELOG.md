@@ -1,5 +1,9 @@
 # TestAccountFixes
 
+## 1.3.1
+
+\* Improved dependency checking by caching using a dictionary<br>
+
 ## 1.3.0
 
 <details> 

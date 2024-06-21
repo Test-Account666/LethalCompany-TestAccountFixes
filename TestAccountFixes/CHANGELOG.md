@@ -1,5 +1,24 @@
 # TestAccountFixes
 
+## 1.3.0
+
+<details> 
+  <summary>Player Speed Fix</summary> 
+
+\+ Added a cooldown. Now checks should only run every 1 second<br>
+
+</details>
+
+<details> 
+  <summary>Spider Web Fix</summary> 
+
+\+ Added a cooldown. Now checks should only run every 1 second<br>
+
+</details>
+
+\+ Added TestAccountCore as dependency<br>
+\# Better icon \\o/<br>
+
 ## 1.2.0
 
 <details> 

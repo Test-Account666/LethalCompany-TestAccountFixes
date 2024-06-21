@@ -20,7 +20,7 @@ public static class PlayerControllerBFinalizer {
             return null!;
 
 
-        AutomaticInventoryFix.LogDebug("Catched Exception from PlayerControllerB#SetObjectAsNoLongerHeld method!");
+        AutomaticInventoryFix.LogDebug("Caught Exception from PlayerControllerB#SetObjectAsNoLongerHeld method!");
 
         __exception.LogDetailed();
 

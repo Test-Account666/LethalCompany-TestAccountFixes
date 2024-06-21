@@ -66,6 +66,9 @@
         <Reference Include="Television_Controller">
             <HintPath>..\include\Television_Controller.dll</HintPath>
         </Reference>
+        <Reference Include="TestAccount666.TestAccountCore">
+          <HintPath>..\include\TestAccountCore.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">

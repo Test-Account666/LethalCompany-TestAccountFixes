@@ -2,7 +2,7 @@ using System;
 using GameNetcodeStuff;
 using HarmonyLib;
 using MonoMod.Utils;
-using TestAccountFixes.Core;
+using TestAccountCore;
 using Unity.Netcode;
 using UnityEngine;
 

@@ -26,6 +26,8 @@ public static class PlayerControllerBPatch {
     [HarmonyBefore("com.kodertech.TelevisionController")]
     // ReSharper disable once InconsistentNaming
     public static bool BeforeSetHoverTipAndCurrentInteractTrigger(PlayerControllerB __instance) =>
+        //TODO: Improve this. DependencyChecker is not meant to be spammed.
+        //TODO: Well, maybe even make a rewrite of the entire fix...
         DependencyChecker.IsTelevisionControllerInstalled()
      || HandleSetHoverTipAndCurrentInteractTrigger(__instance);
 

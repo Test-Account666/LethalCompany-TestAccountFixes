@@ -75,6 +75,7 @@ crashlytics-build.properties
 # User added files
 BetterItemHandling.dll
 Television_Controller.dll
+TestAccountCore.dll
 BuildOutput/
 
 # Build files

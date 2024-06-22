@@ -58,6 +58,13 @@ public static class MenuManagerPatch {
 
         TestAccountFixes.Logger.LogWarning("[GrabItemFix] Mods that might not work as expected:");
 
+        TestAccountFixes.Logger.LogWarning("[GrabItemFix] ~~~~ Start of list ~~~~");
+
         foreach (var patchOwner in patchOwnerSet) TestAccountFixes.Logger.LogWarning("[GrabItemFix] " + patchOwner);
+
+        TestAccountFixes.Logger.LogWarning("[GrabItemFix] ~~~~ End of list ~~~~");
+
+        TestAccountFixes.Logger.LogWarning("[GrabItemFix] Keep in mind... "
+                                         + "Just because a mod is listed here, doesn't mean it will cause issues!");
     }
 }

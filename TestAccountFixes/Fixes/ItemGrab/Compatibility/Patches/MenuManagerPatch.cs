@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using GameNetcodeStuff;
 using HarmonyLib;
 
@@ -10,11 +12,19 @@ public static class MenuManagerPatch {
     [HarmonyPatch(nameof(MenuManager.Start))]
     [HarmonyPostfix]
     public static void CheckForGrabObjectPatches() {
-        var patches = Harmony.GetPatchInfo(AccessTools.DeclaredMethod(typeof(PlayerControllerB),
-                                                                      nameof(PlayerControllerB.BeginGrabObject)));
+        var method1 = AccessTools.DeclaredMethod(typeof(PlayerControllerB), nameof(PlayerControllerB.BeginGrabObject));
 
-        if (patches == null)
-            return;
+        CheckForPatches(method1);
+
+        var method2 = AccessTools.DeclaredMethod(typeof(PlayerControllerB), nameof(PlayerControllerB.SetHoverTipAndCurrentInteractTrigger));
+
+        CheckForPatches(method2);
+    }
+
+    private static void CheckForPatches(MethodInfo methodInfo) {
+        var patches = Harmony.GetPatchInfo(methodInfo);
+
+        if (patches == null) return;
 
         var allPatches = new List<Patch>();
 
@@ -24,23 +34,30 @@ public static class MenuManagerPatch {
         allPatches.AddRange(patches.Transpilers ?? Enumerable.Empty<Patch>());
         allPatches.AddRange(patches.ILManipulators ?? Enumerable.Empty<Patch>());
 
-        if (allPatches.Count <= 0)
-            return;
+        allPatches.RemoveAll(patch => {
+            var patchOwner = patch?.owner;
+            return patchOwner is null || patchOwner.StartsWith("TestAccount666.TestAccountFixes");
+        });
 
-        TestAccountFixes.Logger.LogWarning("[GrabItemFix] Detected mods patching the PlayerControllerB#BeginGrabObject method!");
-        TestAccountFixes.Logger.LogWarning("[GrabItemFix] These mods using may not work correctly!");
+        if (allPatches.Count <= 0) return;
+
+        TestAccountFixes.Logger.LogWarning(new StringBuilder()
+                                           .Append("[GrabItemFix] Detected mods patching the ")
+                                           .Append(methodInfo.DeclaringType?.FullName ?? "null")
+                                           .Append("#")
+                                           .Append(methodInfo.Name)
+                                           .Append(" method!"));
+        TestAccountFixes.Logger.LogWarning("[GrabItemFix] This could be an issue!");
         TestAccountFixes.Logger.LogWarning("[GrabItemFix] Please report any issues!");
 
 
         HashSet<string> patchOwnerSet = [
         ];
 
-        foreach (var allPatch in allPatches)
-            patchOwnerSet.Add(allPatch.owner);
+        foreach (var allPatch in allPatches) patchOwnerSet.Add(allPatch.owner);
 
         TestAccountFixes.Logger.LogWarning("[GrabItemFix] Mods that might not work as expected:");
 
-        foreach (var patchOwner in patchOwnerSet)
-            TestAccountFixes.Logger.LogWarning("[GrabItemFix] " + patchOwner);
+        foreach (var patchOwner in patchOwnerSet) TestAccountFixes.Logger.LogWarning("[GrabItemFix] " + patchOwner);
     }
 }

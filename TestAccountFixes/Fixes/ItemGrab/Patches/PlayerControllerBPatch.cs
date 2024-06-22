@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using GameNetcodeStuff;
 using HarmonyLib;
 using MonoMod.Utils;
-using TestAccountFixes.Dependencies;
 using TestAccountFixes.Fixes.ItemGrab.Compatibility;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +10,8 @@ using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
 
 namespace TestAccountFixes.Fixes.ItemGrab.Patches;
+
+//TODO: Rewrite this.
 
 [HarmonyPatch(typeof(PlayerControllerB))]
 public static class PlayerControllerBPatch {
@@ -23,15 +24,12 @@ public static class PlayerControllerBPatch {
 
     [HarmonyPatch(nameof(PlayerControllerB.SetHoverTipAndCurrentInteractTrigger))]
     [HarmonyPrefix]
-    [HarmonyBefore("com.kodertech.TelevisionController")]
+    [HarmonyBefore("com.kodertech.TelevisionController", "com.kodertech.BoomboxController")]
     // ReSharper disable once InconsistentNaming
     public static bool BeforeSetHoverTipAndCurrentInteractTrigger(PlayerControllerB __instance) =>
-        //TODO: Improve this. DependencyChecker is not meant to be spammed.
-        //TODO: Well, maybe even make a rewrite of the entire fix...
-        DependencyChecker.IsTelevisionControllerInstalled()
-     || HandleSetHoverTipAndCurrentInteractTrigger(__instance);
+        HandleSetHoverTipAndCurrentInteractTrigger(__instance);
 
-    public static bool HandleSetHoverTipAndCurrentInteractTrigger(PlayerControllerB playerControllerB) {
+    private static bool HandleSetHoverTipAndCurrentInteractTrigger(PlayerControllerB playerControllerB) {
         if (ItemGrabFix.itemGrabFixInputActions.NormalGrabKey.IsPressed())
             return true;
 

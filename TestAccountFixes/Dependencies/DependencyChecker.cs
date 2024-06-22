@@ -13,8 +13,6 @@ internal static class DependencyChecker {
 
     internal static bool IsBetterItemHandlingInstalled() => IsInstalled("Yan01h.BetterItemHandling");
 
-    internal static bool IsTelevisionControllerInstalled() => IsInstalled("KoderTech.TelevisionController");
-
     internal static bool IsInventoryFixPluginInstalled() => IsInstalled("Dokge.InventoryFixPlugin");
 
     private static bool IsInstalled(string key) {

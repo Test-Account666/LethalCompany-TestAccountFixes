@@ -1,5 +1,17 @@
 # TestAccountFixes
 
+## 1.3.2
+
+<details> 
+  <summary>Item Grab Fix</summary> 
+
+\+ Added a bit more information about the incompatible mods warning<br>
+\- Removed useless code<br>
+\* Fixed dependency checker cache. Turns out, writing into the cache makes it work :)<br>
+\* Fixed issues with Boombox Controller<br>
+
+</details>
+
 ## 1.3.1
 
 \* Improved dependency checking by caching using a dictionary<br>

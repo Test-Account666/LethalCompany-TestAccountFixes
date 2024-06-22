@@ -18,8 +18,12 @@ internal static class DependencyChecker {
     internal static bool IsInventoryFixPluginInstalled() => IsInstalled("Dokge.InventoryFixPlugin");
 
     private static bool IsInstalled(string key) {
-        return _DependencyDictionary.ContainsKey(key)
-            ? _DependencyDictionary.Get(key)
-            : Chainloader.PluginInfos.Values.Any(metadata => metadata.Metadata.GUID.Contains(key));
+        if (_DependencyDictionary.ContainsKey(key)) return _DependencyDictionary.Get(key);
+
+        var installed = Chainloader.PluginInfos.Values.Any(metadata => metadata.Metadata.GUID.Contains(key));
+
+        _DependencyDictionary.Add(key, installed);
+
+        return installed;
     }
 }

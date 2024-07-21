@@ -1,5 +1,24 @@
 # TestAccountFixes
 
+## 1.3.3
+
+\+ Added config option to print all config values into log<br>
+
+<details> 
+  <summary>Item Grab Fix</summary> 
+
+\* Fixed pre-game item grabbing<br>
+\# Pre-game item grabbing now defaults to false<br>
+
+</details>
+
+<details> 
+  <summary>Cobweb Fix</summary> 
+
+\* Hopefully fixed all issues<br>
+
+</details>
+
 ## 1.3.2
 
 <details> 

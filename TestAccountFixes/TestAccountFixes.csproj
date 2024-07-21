@@ -5,7 +5,7 @@
         <AssemblyName>TestAccount666.TestAccountFixes</AssemblyName>
         <Product>TestAccountFixes</Product>
         <!-- Change to whatever version you're currently on. -->
-        <Version>1.3.2</Version>
+        <Version>1.3.3</Version>
         <Source>https://github.com/Test-Account666/LethalCompany-TestAccountFixes/</Source>
         <Description>All my fixes in one mod</Description>
     </PropertyGroup>

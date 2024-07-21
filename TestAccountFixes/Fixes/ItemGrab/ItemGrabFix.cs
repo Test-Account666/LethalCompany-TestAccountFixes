@@ -32,11 +32,10 @@ internal class ItemGrabFix(ConfigFile configFile) : Fix(configFile, "ItemGrab", 
         Patch();
     }
 
-    private void InitializeConfig() =>
-        allowItemGrabBeforeGameStart = _configFile.Bind(fixName, "5. Allow Item Grab Before Game Start", true,
-                                                        "If set to true, will allow items to be grabbed before the game has started. "
-                                                      + "This might not always work.");
+    private void InitializeConfig() => allowItemGrabBeforeGameStart = _configFile.Bind(
+        fixName, "5. Allow Item Grab Before Game Start", false,
+        "If set to true, will allow items to be grabbed before the game has started. "
+      + "This may cause desyncs.");
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

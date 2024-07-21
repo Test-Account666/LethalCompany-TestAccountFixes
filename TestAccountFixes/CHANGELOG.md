@@ -1,5 +1,14 @@
 # TestAccountFixes
 
+## 1.3.4
+
+<details> 
+  <summary>Item Grab Fix</summary> 
+
+\* Fixed performance issues when loading a lot of items<br>
+
+</details>
+
 ## 1.3.3
 
 \+ Added config option to print all config values into log<br>

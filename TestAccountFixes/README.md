@@ -74,3 +74,5 @@ It is deactivated by default to honor the vanilla damage.
 Fixes players being critically injured while not under 20 HP
 
 </details>
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P6ZWLCY)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
@@ -31,7 +32,47 @@ public class TestAccountFixes : BaseUnityPlugin {
 
         InstantiateFixes();
 
+        var printConfigEntries = Config.Bind("General", "Print Config Entries On Startup", false).Value;
+
+        if (printConfigEntries) PrintConfigEntries();
+
         Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} v{MyPluginInfo.PLUGIN_VERSION} has loaded!");
+    }
+
+    public void PrintConfigEntries() {
+        var configDictionary = new Dictionary<string, string>();
+
+        Config.Do(pair => {
+            var definition = pair.Key;
+            var value = pair.Value;
+
+            if (value is null) return;
+
+            if (definition.Key.Contains("Description")) return;
+
+            var configEntry = $"{definition.Section} -> {value.BoxedValue} ({value.DefaultValue})";
+
+            var exists = configDictionary.TryGetValue(definition.Key, out var entryString);
+
+            if (!exists) {
+                configDictionary.Add(definition.Key, configEntry);
+                return;
+            }
+
+            entryString += $"\n{configEntry}";
+
+            configDictionary.Remove(definition.Key);
+            configDictionary.Add(definition.Key, entryString);
+        });
+
+        Logger.LogInfo("Config entries:");
+        configDictionary.Do(pair => {
+            Logger.LogInfo("~~~~~~~~~~~~~~~~~~~~");
+            Logger.LogInfo("Key: " + pair.Key);
+            Logger.LogInfo(" ");
+            foreach (var value in pair.Value.Split("\n")) Logger.LogInfo(value);
+            Logger.LogInfo($"~~~~~~~~~~~~~~~~~~~~");
+        });
     }
 
     private void InstantiateFixes() {

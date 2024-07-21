@@ -3,26 +3,25 @@ using TestAccountFixes.Core;
 
 namespace TestAccountFixes.Fixes.ItemGrab.Patches;
 
-[HarmonyPatch(typeof(GrabbableObject))]
+[HarmonyPatch(typeof(StartOfRound))]
 public static class GrabbableObjectPatch {
-    [HarmonyPatch(nameof(GrabbableObject.Start))]
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(StartOfRound.Start))]
+    [HarmonyPrefix]
     // ReSharper disable once InconsistentNaming
-    private static void SetGrabbableBeforeStart(GrabbableObject __instance) {
+    private static void SetGrabbableBeforeStart() {
         var allowGrab = ItemGrabFix.Instance.allowItemGrabBeforeGameStart.Value;
-
-        ItemGrabFix.LogDebug($"Allowing grab? {allowGrab}", LogLevel.VERY_VERBOSE);
 
         if (!allowGrab) return;
 
-        var itemProperties = __instance.itemProperties;
+        foreach (var itemProperties in StartOfRound.Instance.allItemsList.itemsList) {
+            ItemGrabFix.LogDebug($"{itemProperties.itemName} can be grabbed? {itemProperties.canBeGrabbedBeforeGameStart}",
+                                 LogLevel.VERBOSE);
 
-        ItemGrabFix.LogDebug($"{itemProperties.itemName} can be grabbed? {itemProperties.canBeGrabbedBeforeGameStart}", LogLevel.VERBOSE);
+            if (itemProperties.canBeGrabbedBeforeGameStart) continue;
 
-        if (itemProperties.canBeGrabbedBeforeGameStart) return;
+            ItemGrabFix.LogDebug($"{itemProperties.itemName} can now be grabbed :)", LogLevel.VERBOSE);
 
-        ItemGrabFix.LogDebug($"{itemProperties.itemName} can now be grabbed :)", LogLevel.VERBOSE);
-
-        itemProperties.canBeGrabbedBeforeGameStart = true;
+            itemProperties.canBeGrabbedBeforeGameStart = true;
+        }
     }
 }

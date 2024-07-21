@@ -62,21 +62,25 @@ public static class CobwebChecker {
             return false;
         }
 
-        if (localPlayer.isMovementHindered > 0)
-            return true;
+        if (localPlayer.isMovementHindered > 0) return true;
 
         SpiderWebFix.LogDebug($"{playerControllerB.playerUsername} is not hindered!", LogLevel.VERY_VERBOSE);
         return false;
     }
 
-    private static List<SandSpiderWebTrap> FindActiveCobwebs() =>
-        Object.FindObjectsOfType<SandSpiderWebTrap>()
-              .Where(cobwebTrap => cobwebTrap.hinderingLocalPlayer)
-              .ToList();
+    private static List<SandSpiderWebTrap> FindActiveCobwebs() {
+        var cobwebs = Object.FindObjectsOfType<SandSpiderWebTrap>();
+        cobwebs ??= [
+        ];
+
+        return (from cobwebTrap in cobwebs
+                where cobwebs is not null
+                where cobwebTrap.hinderingLocalPlayer
+                select cobwebTrap).ToList();
+    }
 
     private static bool ShouldReleaseBasedOnCobwebs(IReadOnlyCollection<SandSpiderWebTrap> activeCobwebs) {
-        if (activeCobwebs.None())
-            return true;
+        if (activeCobwebs.None()) return true;
 
         var localPlayerPosition = StartOfRound.Instance.localPlayerController.transform.position;
         return (from cobweb in activeCobwebs
@@ -87,7 +91,17 @@ public static class CobwebChecker {
     }
 
     private static bool ShouldReleaseBasedOnZapGuns() {
-        var zapGuns = Object.FindObjectsOfType<PatcherTool>();
+        List<PatcherTool> zapGuns = [
+        ];
+
+        foreach (var playerControllerB in StartOfRound.Instance.allPlayerScripts) {
+            foreach (var grabbableObject in playerControllerB.ItemSlots) {
+                if (grabbableObject is not PatcherTool patcherTool) continue;
+
+                zapGuns.Add(patcherTool);
+            }
+        }
+
         return (from zapGun in zapGuns
                 where zapGun is not null
                 let shockableTransform = zapGun.shockedTargetScript.GetShockableTransform()
@@ -98,12 +112,19 @@ public static class CobwebChecker {
 
     private static void ReleasePlayer(List<SandSpiderWebTrap> activeCobwebs) {
         var localPlayer = StartOfRound.Instance.localPlayerController;
-        localPlayer.isMovementHindered = 0;
-        localPlayer.hinderedMultiplier /= 3.5f;
+        localPlayer.isMovementHindered -= activeCobwebs.Count;
+
+        if (localPlayer.isMovementHindered < 0) localPlayer.isMovementHindered = 0;
 
         foreach (var cobweb in activeCobwebs) {
             cobweb.hinderingLocalPlayer = false;
             cobweb.currentTrappedPlayer = null;
+
+            localPlayer.hinderedMultiplier /= 3.5f;
         }
+
+        if (localPlayer.hinderedMultiplier >= 1) return;
+
+        localPlayer.hinderedMultiplier = 1;
     }
 }

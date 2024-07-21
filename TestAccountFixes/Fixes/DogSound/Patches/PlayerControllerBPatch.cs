@@ -10,8 +10,7 @@ public static class PlayerControllerBPatch {
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
     private static void AlertDoggosBySprintJumping(PlayerControllerB __instance) {
-        if (!DogSoundFix.fixSilentSprint.Value)
-            return;
+        if (!DogSoundFix.fixSilentSprint.Value) return;
 
         if (!__instance.IsHost) {
             DogSoundFix.LogDebug("[SilentSprint4] We're not host, skipping...");
@@ -35,8 +34,7 @@ public static class PlayerControllerBPatch {
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
     private static void AddCheckForSilentSprint(PlayerControllerB __instance) {
-        if (!DogSoundFix.fixSilentSprint.Value)
-            return;
+        if (!DogSoundFix.fixSilentSprint.Value) return;
 
         if (!__instance.IsHost) {
             DogSoundFix.LogDebug("[SilentSprint1] We're not host, skipping...");
@@ -44,8 +42,7 @@ public static class PlayerControllerBPatch {
         }
 
         foreach (var allPlayerScript in StartOfRound.Instance.allPlayerScripts) {
-            if (allPlayerScript is null)
-                continue;
+            if (allPlayerScript is null) continue;
 
             _ = allPlayerScript.gameObject.GetComponent<SprintChecker>()
              ?? allPlayerScript.gameObject.AddComponent<SprintChecker>();
@@ -56,8 +53,7 @@ public static class PlayerControllerBPatch {
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
     private static void CheckForSilentSprint(PlayerControllerB __instance) {
-        if (!DogSoundFix.fixSilentSprint.Value)
-            return;
+        if (!DogSoundFix.fixSilentSprint.Value) return;
 
         if (!__instance.IsHost) {
             DogSoundFix.LogDebug("[SilentSprint2] We're not host, skipping...", LogLevel.VERY_VERBOSE);
@@ -65,8 +61,7 @@ public static class PlayerControllerBPatch {
         }
 
         foreach (var allPlayerScript in StartOfRound.Instance.allPlayerScripts) {
-            if (allPlayerScript is null)
-                continue;
+            if (allPlayerScript is null) continue;
 
             var sprintChecker = allPlayerScript.gameObject.GetComponent<SprintChecker>()
                              ?? allPlayerScript.gameObject.AddComponent<SprintChecker>();

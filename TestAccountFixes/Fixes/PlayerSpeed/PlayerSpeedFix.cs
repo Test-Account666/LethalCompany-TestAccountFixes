@@ -16,6 +16,5 @@ internal class PlayerSpeedFix(ConfigFile configFile) : Fix(configFile, "PlayerSp
         Patch();
     }
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

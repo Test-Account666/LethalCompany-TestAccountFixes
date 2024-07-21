@@ -25,6 +25,5 @@ internal class SpiderWebFix(ConfigFile configFile) : Fix(configFile, "SpiderWeb"
         teleportCobwebs = _configFile.Bind(fixName, "5. Teleport Cobwebs", true,
                                            "If true, will teleport cobwebs somewhere else as soon as they are broken.");
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

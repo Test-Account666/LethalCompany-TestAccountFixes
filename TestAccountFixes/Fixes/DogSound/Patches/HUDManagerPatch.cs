@@ -8,8 +8,7 @@ public static class HUDManagerPatch {
     [HarmonyPatch(nameof(HUDManager.AddTextToChatOnServer))]
     [HarmonyPostfix]
     private static void MakeChatLoud(int playerId) {
-        if (!DogSoundFix.chatIsLoudActually.Value)
-            return;
+        if (!DogSoundFix.chatIsLoudActually.Value) return;
 
         if (!StartOfRound.Instance.IsHost && !StartOfRound.Instance.IsServer) {
             DogSoundFix.LogDebug("We're not host, skipping...", LogLevel.VERY_VERBOSE);

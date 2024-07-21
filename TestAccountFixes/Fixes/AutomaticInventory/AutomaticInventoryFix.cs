@@ -54,6 +54,5 @@ internal class AutomaticInventoryFix(ConfigFile configFile) : Fix(configFile, "A
         LogDebug("Manual fix was triggered! ThrowingObject? " + localPlayer.throwingObject);
     }
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

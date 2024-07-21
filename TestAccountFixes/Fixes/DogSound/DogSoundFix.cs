@@ -28,6 +28,5 @@ internal class DogSoundFix(ConfigFile configFile) : Fix(configFile, "DogSound", 
                                               "If true, chat will be loud. Dogs will be able to hear you sending chat messages");
     }
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

@@ -15,8 +15,7 @@ public static class ShotgunPatch {
     [HarmonyPatch(nameof(ShotgunItem.ItemInteractLeftRight))]
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
-    private static void ItemInteractLeftRightPostfix(ShotgunItem __instance) =>
-        HandleShotgunNoise(__instance);
+    private static void ItemInteractLeftRightPostfix(ShotgunItem __instance) => HandleShotgunNoise(__instance);
 
     [HarmonyPatch(nameof(ShotgunItem.ReloadGunEffectsServerRpc))]
     [HarmonyPostfix]

@@ -46,8 +46,7 @@ public class SprintChecker : MonoBehaviour {
         _previousState = currentState;
         currentState = GetPlayerState(playerControllerB);
 
-        if (currentState == _previousState)
-            return;
+        if (currentState == _previousState) return;
 
         var position = playerControllerB.transform.position;
 
@@ -65,8 +64,7 @@ public class SprintChecker : MonoBehaviour {
             AlertDoggos(playerControllerB);
 
         // Reset switch count if time frame elapsed
-        if (Time.time - _lastCheckTime < SWITCH_TIME_FRAME)
-            return;
+        if (Time.time - _lastCheckTime < SWITCH_TIME_FRAME) return;
 
         DogSoundFix.LogDebug($"[SilentSprint3] {playerControllerB.playerUsername}: Threshold expired!", LogLevel.VERY_VERBOSE);
 

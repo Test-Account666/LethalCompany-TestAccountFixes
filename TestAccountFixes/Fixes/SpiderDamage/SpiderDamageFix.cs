@@ -24,9 +24,7 @@ internal class SpiderDamageFix(ConfigFile configFile) : Fix(configFile, "SpiderD
         _spooderDamageEntry = _configFile.Bind(fixName, "5. Spooder Damage", 20,
                                                "This will change the amount damage that spooders (aka spiders) deal. 90 is the vanilla value.");
 
-    public static int GetSpooderDamage() =>
-        Instance?._spooderDamageEntry?.Value ?? 90;
+    public static int GetSpooderDamage() => Instance?._spooderDamageEntry?.Value ?? 90;
 
-    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) =>
-        ((Fix) Instance).LogDebug(message, logLevel);
+    internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

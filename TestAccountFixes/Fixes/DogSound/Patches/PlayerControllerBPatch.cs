@@ -44,6 +44,8 @@ public static class PlayerControllerBPatch {
         foreach (var allPlayerScript in StartOfRound.Instance.allPlayerScripts) {
             if (allPlayerScript is null) continue;
 
+            if (!allPlayerScript) continue;
+
             _ = allPlayerScript.gameObject.GetComponent<SprintChecker>()
              ?? allPlayerScript.gameObject.AddComponent<SprintChecker>();
         }
@@ -62,6 +64,8 @@ public static class PlayerControllerBPatch {
 
         foreach (var allPlayerScript in StartOfRound.Instance.allPlayerScripts) {
             if (allPlayerScript is null) continue;
+
+            if (!allPlayerScript) continue;
 
             var sprintChecker = allPlayerScript.gameObject.GetComponent<SprintChecker>()
                              ?? allPlayerScript.gameObject.AddComponent<SprintChecker>();

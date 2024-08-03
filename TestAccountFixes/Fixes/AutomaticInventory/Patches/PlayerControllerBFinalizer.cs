@@ -16,8 +16,7 @@ public static class PlayerControllerBFinalizer {
         SetObjectAsNoLongerHeldFinalizer(Exception __exception, GrabbableObject dropObject, Vector3 targetFloorPosition) {
         AutomaticInventoryFix.LogDebug("[NoLongerHeld] Exception? " + (__exception != null!), LogLevel.VERY_VERBOSE);
 
-        if (__exception == null!)
-            return null!;
+        if (__exception == null!) return null!;
 
 
         AutomaticInventoryFix.LogDebug("Caught Exception from PlayerControllerB#SetObjectAsNoLongerHeld method!");
@@ -29,13 +28,11 @@ public static class PlayerControllerBFinalizer {
         AutomaticInventoryFix.LogDebug("dropObject null? " + (dropObject == null));
         AutomaticInventoryFix.LogDebug("targetFloorPosition null? " + (targetFloorPosition == null!));
 
-        if (dropObject == null)
-            return null!;
+        if (dropObject == null) return null!;
 
         AutomaticInventoryFix.LogDebug("transform null? " + (dropObject.transform == null!));
 
-        if (dropObject.transform == null)
-            return null!;
+        if (dropObject.transform == null) return null!;
 
         AutomaticInventoryFix.LogDebug("transform position null? " + (dropObject.transform.position == null!));
 

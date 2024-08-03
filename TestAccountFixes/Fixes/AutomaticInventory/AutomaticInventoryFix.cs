@@ -38,16 +38,13 @@ internal class AutomaticInventoryFix(ConfigFile configFile) : Fix(configFile, "A
     }
 
     private static void ReverseThrowingObject(InputAction.CallbackContext context) {
-        if (!context.performed)
-            return;
+        if (!context.performed) return;
 
-        if (StartOfRound.Instance is null)
-            return;
+        if (StartOfRound.Instance is null) return;
 
         var localPlayer = StartOfRound.Instance.localPlayerController;
 
-        if (localPlayer is null)
-            return;
+        if (localPlayer is null) return;
 
         localPlayer.throwingObject = !localPlayer.throwingObject;
 

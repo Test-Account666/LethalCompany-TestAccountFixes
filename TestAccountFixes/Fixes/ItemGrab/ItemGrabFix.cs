@@ -7,8 +7,7 @@ namespace TestAccountFixes.Fixes.ItemGrab;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal class ItemGrabFix(ConfigFile configFile) : Fix(configFile, "ItemGrab", DESCRIPTION) {
-    private const string DESCRIPTION =
-        "Breaks the laws of physics to allow grabbing items behind InteractTriggers.";
+    private const string DESCRIPTION = "Breaks the laws of physics to allow grabbing items behind InteractTriggers.";
 
     private readonly ConfigFile _configFile = configFile;
 
@@ -32,10 +31,9 @@ internal class ItemGrabFix(ConfigFile configFile) : Fix(configFile, "ItemGrab", 
         Patch();
     }
 
-    private void InitializeConfig() => allowItemGrabBeforeGameStart = _configFile.Bind(
-        fixName, "5. Allow Item Grab Before Game Start", false,
-        "If set to true, will allow items to be grabbed before the game has started. "
-      + "This may cause desyncs.");
+    private void InitializeConfig() => allowItemGrabBeforeGameStart = _configFile.Bind(fixName, "5. Allow Item Grab Before Game Start", false,
+                                                                                       "If set to true, will allow items to be grabbed before the game has started. "
+                                                                                     + "This may cause desyncs.");
 
     internal new static void LogDebug(string message, LogLevel logLevel = LogLevel.NORMAL) => ((Fix) Instance).LogDebug(message, logLevel);
 }

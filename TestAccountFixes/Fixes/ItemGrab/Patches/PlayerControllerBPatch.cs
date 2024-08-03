@@ -30,14 +30,11 @@ public static class PlayerControllerBPatch {
         HandleSetHoverTipAndCurrentInteractTrigger(__instance);
 
     private static bool HandleSetHoverTipAndCurrentInteractTrigger(PlayerControllerB playerControllerB) {
-        if (ItemGrabFix.itemGrabFixInputActions.NormalGrabKey.IsPressed())
-            return true;
+        if (ItemGrabFix.itemGrabFixInputActions.NormalGrabKey.IsPressed()) return true;
 
-        if (playerControllerB.hoveringOverTrigger != null && playerControllerB.hoveringOverTrigger.isBeingHeldByPlayer)
-            return true;
+        if (playerControllerB.hoveringOverTrigger != null && playerControllerB.hoveringOverTrigger.isBeingHeldByPlayer) return true;
 
-        if (!IsLocalPlayer(playerControllerB) || playerControllerB.isGrabbingObjectAnimation)
-            return true;
+        if (!IsLocalPlayer(playerControllerB) || playerControllerB.isGrabbingObjectAnimation) return true;
 
         if (!RaycastForObject(playerControllerB, out var hit)) {
             ClearTriggerAndTip(playerControllerB);
@@ -51,11 +48,9 @@ public static class PlayerControllerBPatch {
 
         var grabObject = hit.collider.GetComponent<GrabbableObject>();
 
-        if (!(grabObject?.grabbable ?? false))
-            return true;
+        if (!(grabObject?.grabbable ?? false)) return true;
 
-        if (grabObject?.deactivated ?? true)
-            return true;
+        if (grabObject?.deactivated ?? true) return true;
 
         if (grabObject != null) {
             if (!ItemGrabFix.Instance.allowItemGrabBeforeGameStart.Value) {
@@ -85,16 +80,13 @@ public static class PlayerControllerBPatch {
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
     public static void Interact_performed(PlayerControllerB __instance, ref InputAction.CallbackContext context) {
-        if (ItemGrabFix.itemGrabFixInputActions.NormalGrabKey.IsPressed())
-            return;
+        if (ItemGrabFix.itemGrabFixInputActions.NormalGrabKey.IsPressed()) return;
 
-        if (__instance.hoveringOverTrigger != null && __instance.hoveringOverTrigger.isBeingHeldByPlayer)
-            return;
+        if (__instance.hoveringOverTrigger != null && __instance.hoveringOverTrigger.isBeingHeldByPlayer) return;
 
         if (((!__instance.IsOwner || !__instance.isPlayerControlled ||
               __instance is { IsServer: true, isHostPlayerObject: false }) && !__instance.isTestingPlayer) ||
-            !context.performed)
-            return;
+            !context.performed) return;
 
         BeginGrabObject(__instance);
     }
@@ -102,30 +94,24 @@ public static class PlayerControllerBPatch {
     private static void BeginGrabObject(PlayerControllerB instance) {
         ItemGrabFixHook.OnPreBeforeGrabObject(instance, null);
 
-        if (!IsLocalPlayer(instance))
-            return;
+        if (!IsLocalPlayer(instance)) return;
 
-        if (!RaycastForObject(instance, out var hit))
-            return;
+        if (!RaycastForObject(instance, out var hit)) return;
 
         var grabObject = hit.collider.GetComponent<GrabbableObject>();
 
         ItemGrabFixHook.OnBeforeGrabObject(instance, grabObject);
 
         if (grabObject == null || instance.inSpecialInteractAnimation || instance.isGrabbingObjectAnimation ||
-            grabObject.isHeld || grabObject.isPocketed)
-            return;
+            grabObject.isHeld || grabObject.isPocketed) return;
 
         var networkObject = grabObject.NetworkObject;
 
-        if (networkObject == null || !networkObject.IsSpawned)
-            return;
+        if (networkObject == null || !networkObject.IsSpawned) return;
 
-        if (!(grabObject?.grabbable ?? false))
-            return;
+        if (!(grabObject?.grabbable ?? false)) return;
 
-        if (grabObject?.deactivated ?? true)
-            return;
+        if (grabObject?.deactivated ?? true) return;
 
         if (!ItemGrabFix.Instance.allowItemGrabBeforeGameStart.Value) {
             if (!grabObject.itemProperties.canBeGrabbedBeforeGameStart && !GameNetworkManager.Instance.gameHasStarted) {
@@ -139,11 +125,9 @@ public static class PlayerControllerBPatch {
             exception.LogDetailed();
         }
 
-        if (instance.twoHanded)
-            return;
+        if (instance.twoHanded) return;
 
-        if (!grabObject.grabbable || instance.FirstEmptyItemSlot() == -1)
-            return;
+        if (!grabObject.grabbable || instance.FirstEmptyItemSlot() == -1) return;
 
         ResetAnimators(instance);
 
@@ -163,16 +147,14 @@ public static class PlayerControllerBPatch {
             ? 0.4f
             : grabObject.itemProperties.grabAnimationTime;
 
-        if (!instance.isTestingPlayer)
-            instance.GrabObjectServerRpc((NetworkObjectReference) networkObject);
+        if (!instance.isTestingPlayer) instance.GrabObjectServerRpc((NetworkObjectReference) networkObject);
 
         instance.grabObjectCoroutine = instance.StartCoroutine(instance.GrabObject());
 
         ItemGrabFixHook.OnAfterGrabObject(instance, grabObject);
     }
 
-    private static bool IsLocalPlayer(Object player) =>
-        player == StartOfRound.Instance.localPlayerController;
+    private static bool IsLocalPlayer(Object player) => player == StartOfRound.Instance.localPlayerController;
 
 
     private static bool RaycastForObject(PlayerControllerB player, out RaycastHit hit) {
@@ -195,11 +177,9 @@ public static class PlayerControllerBPatch {
                                                                           | (1 << 12) /* PhysicsObject */) &&
                          hit.collider.CompareTag("PhysicsProp");
 
-        if (!raycastHit)
-            return false;
+        if (!raycastHit) return false;
 
-        if (IsInteractableObjectHit(ray, player, hit))
-            return false;
+        if (IsInteractableObjectHit(ray, player, hit)) return false;
 
         // Check if there's a door obstructing the grabbable object
         return !IsDoorHit(ray, player, hit);
@@ -210,14 +190,12 @@ public static class PlayerControllerBPatch {
                                                          bool checkDoor = true) {
         var raycastHit = Physics.Raycast(ray, out var hit, player.grabDistance, 1 << 9);
 
-        if (!raycastHit)
-            return false; // No hit, allow grabbing
+        if (!raycastHit) return false; // No hit, allow grabbing
 
         var doorLock = hit.collider.GetComponent<DoorLock>();
 
         if (checkDoor) {
-            if (doorLock == null)
-                return false; // No DoorLock component found, allow grabbing
+            if (doorLock == null) return false; // No DoorLock component found, allow grabbing
         } else if (doorLock != null) {
             return false; // DoorLock found, skipping
         }
@@ -227,8 +205,7 @@ public static class PlayerControllerBPatch {
         foreach (var collider in colliders) {
             // A trigger allows the player to pass through
             // We only want physical colliders
-            if (!collider || collider.isTrigger)
-                continue;
+            if (!collider || collider.isTrigger) continue;
 
             var originalSize = collider.size;
 
@@ -239,8 +216,7 @@ public static class PlayerControllerBPatch {
 
             collider.size = originalSize; // Revert to original size
 
-            if (!boxHit)
-                continue;
+            if (!boxHit) continue;
 
             // Check if the object is closer than the grabbed object
             return boxHitInfo.distance < grabbableObjectHit.distance;
@@ -260,8 +236,7 @@ public static class PlayerControllerBPatch {
         playerControllerB.cursorIcon.enabled = false;
         playerControllerB.cursorTip.text = "";
 
-        if (playerControllerB.hoveringOverTrigger != null)
-            playerControllerB.previousHoveringOverTrigger = playerControllerB.hoveringOverTrigger;
+        if (playerControllerB.hoveringOverTrigger != null) playerControllerB.previousHoveringOverTrigger = playerControllerB.hoveringOverTrigger;
 
         playerControllerB.hoveringOverTrigger = null;
     }

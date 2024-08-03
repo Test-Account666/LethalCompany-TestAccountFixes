@@ -14,8 +14,7 @@ public static class GrabbableObjectPatch {
         if (!allowGrab) return;
 
         foreach (var itemProperties in StartOfRound.Instance.allItemsList.itemsList) {
-            ItemGrabFix.LogDebug($"{itemProperties.itemName} can be grabbed? {itemProperties.canBeGrabbedBeforeGameStart}",
-                                 LogLevel.VERBOSE);
+            ItemGrabFix.LogDebug($"{itemProperties.itemName} can be grabbed? {itemProperties.canBeGrabbedBeforeGameStart}", LogLevel.VERBOSE);
 
             if (itemProperties.canBeGrabbedBeforeGameStart) continue;
 

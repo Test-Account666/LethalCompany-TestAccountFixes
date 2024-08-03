@@ -4,8 +4,10 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using TestAccountFixes.Dependencies;
+using TestAccountCore.Dependencies;
+using TestAccountCore.Dependencies.Compatibility;
 using TestAccountFixes.Fixes;
+using DependencyChecker = TestAccountFixes.Dependencies.DependencyChecker;
 
 namespace TestAccountFixes;
 
@@ -27,7 +29,8 @@ public class TestAccountFixes : BaseUnityPlugin {
 
         if (DependencyChecker.IsLobbyCompatibilityInstalled()) {
             Logger.LogInfo("Found LobbyCompatibility Mod, initializing support :)");
-            LobbyCompatibilitySupport.Initialize();
+            LobbyCompatibilitySupport.Initialize(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_VERSION,
+                                                 CompatibilityLevel.ClientOnly, VersionStrictness.Minor);
         }
 
         InstantiateFixes();

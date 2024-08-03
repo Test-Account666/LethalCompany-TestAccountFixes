@@ -19,11 +19,9 @@ public static class PlayerControllerBPatch {
     [HarmonyPostfix]
     // ReSharper disable once InconsistentNaming
     private static void AfterUpdate(PlayerControllerB __instance) {
-        if (!__instance.isPlayerControlled)
-            return;
+        if (!__instance.isPlayerControlled) return;
 
-        if (__instance.isPlayerDead)
-            return;
+        if (__instance.isPlayerDead) return;
 
         try {
             ThrowObjectCheck(__instance);
@@ -52,8 +50,7 @@ public static class PlayerControllerBPatch {
         // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
         var thrownObject = parentObjectTo ?? heldObjectServerNetworkObject;
 
-        if (thrownObject is null)
-            return;
+        if (thrownObject is null) return;
 
         var currentTime = UnixTime.GetCurrentTime();
         AutomaticInventoryFix.LogDebug("Detected throw! Setting timeout...");
@@ -62,8 +59,7 @@ public static class PlayerControllerBPatch {
     }
 
     private static void ThrowObjectCheck(PlayerControllerB player) {
-        if (_throwTimeoutTime <= 0)
-            return;
+        if (_throwTimeoutTime <= 0) return;
 
         if (player.hasThrownObject) {
             _throwTimeoutTime = 0;
@@ -72,8 +68,7 @@ public static class PlayerControllerBPatch {
 
         var currentTime = UnixTime.GetCurrentTime();
 
-        if (_throwTimeoutTime > currentTime)
-            return;
+        if (_throwTimeoutTime > currentTime) return;
 
         AutomaticInventoryFix.LogDebug("Detected throw lasting longer than 1 second, giving up...");
 
@@ -81,8 +76,7 @@ public static class PlayerControllerBPatch {
         player.playerBodyAnimator.SetBool(_CancelHoldingHash, false);
         _throwTimeoutTime = 0;
 
-        if (_thrownObject is null)
-            return;
+        if (_thrownObject is null) return;
 
         player.GrabObjectServerRpc(_thrownObject);
     }
@@ -108,8 +102,7 @@ public static class PlayerControllerBPatch {
             return;
         }
 
-        if (_grabTimeoutTime > currentTime)
-            return;
+        if (_grabTimeoutTime > currentTime) return;
 
         AutomaticInventoryFix.LogDebug("Detected grab lasting longer than 1 second, giving up...");
 

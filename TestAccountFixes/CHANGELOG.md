@@ -1,5 +1,9 @@
 # TestAccountFixes
 
+## 1.3.5
+
+\* Fix LobbyCompatibility
+
 ## 1.3.4
 
 <details> 

@@ -31,10 +31,21 @@ internal class AutomaticInventoryFix(ConfigFile configFile) : Fix(configFile, "A
         TestAccountFixes.Instance.StartCoroutine(RegisterManualInventoryFixKey(manualInventoryFixInputActions));
     }
 
-    private static IEnumerator RegisterManualInventoryFixKey(ManualInventoryFixInputActions manualInventoryFixInputActions) {
-        yield return new WaitUntil(() => manualInventoryFixInputActions.ManualInventoryFixKey is not null);
+    private static IEnumerator RegisterManualInventoryFixKey(
+        ManualInventoryFixInputActions manualInventoryFixInputActions) {
+        LogDebug("Registering Manual Inventory Fix Key...");
+        // No idea why, but Unity really HATES to execute this Coroutine any further after `WaitUntil` returns `true`
+        yield return new WaitUntil(() => {
+            var registered = manualInventoryFixInputActions.ManualInventoryFixKey is not null;
+            LogDebug($"Manual Inventory Fix Key registered? {registered}", LogLevel.VERY_VERBOSE);
 
-        manualInventoryFixInputActions.ManualInventoryFixKey!.performed += ReverseThrowingObject;
+            if (!registered) return false;
+
+            LogDebug("Manual Inventory Fix Key registered!");
+
+            manualInventoryFixInputActions.ManualInventoryFixKey!.performed += ReverseThrowingObject;
+            return true;
+        });
     }
 
     private static void ReverseThrowingObject(InputAction.CallbackContext context) {

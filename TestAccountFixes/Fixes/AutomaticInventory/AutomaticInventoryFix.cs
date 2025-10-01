@@ -58,6 +58,7 @@ internal class AutomaticInventoryFix(ConfigFile configFile) : Fix(configFile, "A
         if (localPlayer is null) return;
 
         localPlayer.throwingObject = !localPlayer.throwingObject;
+        HUDManager.Instance.DisplayTip("TestAccountFixes", "Manual Inventory Fix triggered", true);
 
         LogDebug("Manual fix was triggered! ThrowingObject? " + localPlayer.throwingObject);
     }

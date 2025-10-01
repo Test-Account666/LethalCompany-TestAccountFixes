@@ -1,5 +1,16 @@
 # TestAccountFixes
 
+## 1.4.0
+
+<details> 
+  <summary>Inventory Fix</summary> 
+
+\+ Added Message whenever Manual Inventory Fix was triggered
+\+ Added checks to prevent accidental triggering of the Manual Inventory Fix while typing in chat/terminal
+\* Fixed Manual Inventory Fix key
+
+</details>
+
 ## 1.3.5
 
 \* Fix LobbyCompatibility
